@@ -8,7 +8,7 @@ The project demonstrates the complete analytics workflow—from cleaning a messy
 
 ## Dashboard Preview
 
-![Dashboard](dashboard.png)
+![Dashboard](dashboard/dashboard.png)
 
 ---
 
