@@ -170,7 +170,7 @@ Automatically generated business insights including:
 
 Detailed cleaning decisions, formulas, validation rules and business logic are available in:
 
-**description.md**
+![Description](decription.md)
 
 ---
 
