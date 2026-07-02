@@ -36,17 +36,8 @@ The objective was to transform this raw dataset into an analysis-ready dataset a
 
 Source:
 
-[Kaggle - BudgetWise Finance Dataset]
+[[Kaggle - BudgetWise Finance Dataset]](https://www.kaggle.com/datasets/mohammedarfathr/budgetwise-personal-finance-dataset)
 
-(Replace this with the original Kaggle URL.)
-
-Original Records : **15,900**
-
-Final Records : **14,430**
-
----
-
-# Dataset Summary
 
 | Description | Count |
 |-------------|------:|
