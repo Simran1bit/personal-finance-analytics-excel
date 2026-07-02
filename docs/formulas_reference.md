@@ -1,0 +1,87 @@
+# Excel Functions Used
+
+## Aggregation
+
+SUM
+
+SUMIF
+
+SUMIFS
+
+COUNTIF
+
+COUNTIFS
+
+AVERAGE
+
+MODE
+
+LARGE
+
+---
+
+## Lookup
+
+XLOOKUP
+
+INDEX
+
+MATCH
+
+FILTER
+
+UNIQUE
+
+---
+
+## Logical
+
+IF
+
+IFS
+
+AND
+
+OR
+
+---
+
+## Text
+
+TRIM
+
+LOWER
+
+UPPER
+
+LEFT
+
+RIGHT
+
+SEARCH
+
+SUBSTITUTE
+
+TEXT
+
+---
+
+## Date
+
+DATE
+
+YEAR
+
+MONTH
+
+ISNUMBER
+
+---
+
+## Numeric
+
+ABS
+
+NUMBERVALUE
+
+ROUND
