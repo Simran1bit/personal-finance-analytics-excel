@@ -4,15 +4,16 @@
 
 # 1. Dataset Overview
 
-Dataset contains personal financial transactions.
+The dataset contains personal financial transactions.
 
-Original Size
+### Original Dataset Size
 
-Rows : 15,900
+- **Rows:** 15,900
+- **Columns:** 9
 
-Columns : 9
+### Dataset Issues
 
-The dataset intentionally contains multiple inconsistencies including:
+The dataset intentionally contains multiple inconsistencies, including:
 
 - Missing values
 - Mixed date formats
@@ -27,350 +28,258 @@ The dataset intentionally contains multiple inconsistencies including:
 
 # 2. Cleaning Workflow
 
-## Step 1
+## Step 1 – Duplicate Transactions
 
-Problem
-
-Duplicate Transactions
-
-Observation
-
+**Problem:**  
 Duplicate transaction IDs were found.
 
-Decision
+**Observation:**  
+Some transactions appeared more than once.
 
-Removed duplicate rows while keeping the first occurrence.
+**Decision:**  
+Removed duplicate records while keeping the first occurrence.
 
-Formula / Tool
-
-Excel Remove Duplicates
-
----
-
-## Step 2
-
-Problem
-
-Inconsistent City Names
-
-Examples
-
-Lucknow
-LUC
-lucknow
-
-Observation
-
-Multiple abbreviations represented the same city.
-
-Decision
-
-Created a standardized city mapping.
-
-Functions Used
-
-LOWER
-
-TRIM
-
-XLOOKUP
+**Tool Used:**  
+- Remove Duplicates (Excel)
 
 ---
 
-## Step 3
+## Step 2 – Standardizing City Names
 
-Problem
+**Problem:**  
+City names were inconsistent.
 
-Payment Modes
+**Examples:**
+- Lucknow
+- LUC
+- lucknow
 
-Examples
+**Observation:**  
+Different abbreviations and text cases represented the same city.
 
-B
-Bank Transfer
+**Decision:**  
+Created a standardized city mapping table.
 
-U
-UPI
-
-Observation
-
-Payment modes were abbreviated.
-
-Decision
-
-Mapped abbreviations to full names.
-
-Functions Used
-
-IFS
-
-LEFT
-
-SEARCH
-
-XLOOKUP
+**Functions Used:**
+- LOWER
+- TRIM
+- XLOOKUP
 
 ---
 
-## Step 4
+## Step 3 – Cleaning Payment Modes
 
-Problem
+**Problem:**  
+Payment methods were stored using abbreviations.
 
-Category Column
+**Examples:**
 
-Observation
+| Original | Standardized |
+|----------|--------------|
+| B | Bank Transfer |
+| U | UPI |
 
-Contained spelling mistakes and inconsistent labels.
+**Observation:**  
+Abbreviated values reduced readability and consistency.
 
-Examples
+**Decision:**  
+Mapped abbreviations to their full payment method names.
 
-educatn
-
-educ
-
-education
-
-Decision
-
-Created category mapping sheet.
-
-Used XLOOKUP for final categories.
-
-Reason
-
-Mapping table is reusable and easier to maintain.
+**Functions Used:**
+- IFS
+- LEFT
+- SEARCH
+- XLOOKUP
 
 ---
 
-## Step 5
+## Step 4 – Standardizing Categories
 
-Problem
+**Problem:**  
+Category names contained spelling mistakes and inconsistent labels.
 
-Mixed Date Formats
+**Examples:**
+- educatn
+- educ
+- education
 
-Examples
+**Observation:**  
+The same category appeared under multiple names.
 
-dd-mm-yyyy
+**Decision:**  
+Created a separate category mapping table and standardized all categories using XLOOKUP.
 
-mm/dd/yyyy
+**Reason:**  
+A mapping table is reusable, scalable, and easier to maintain than hardcoded formulas.
 
-blank
+---
 
-Issue
+## Step 5 – Cleaning Date Values
 
-Formatting does not convert text into actual Excel dates.
+**Problem:**  
+Dates were stored in multiple formats.
 
-Solution
+**Examples:**
+- dd-mm-yyyy
+- mm/dd/yyyy
+- blank
 
+**Issue:**  
+Changing the cell format does not convert text into actual Excel dates.
+
+**Decision:**  
 Converted text dates into proper Excel date values.
 
-Created
+**Additional Features Created:**
+- Date Flag
+  - Available
+  - Missing
 
-Date Flag
-
-Available
-
-Missing
-
-Functions Used
-
-DATE
-
-YEAR
-
-MONTH
-
-ISNUMBER
+**Functions Used:**
+- DATE
+- YEAR
+- MONTH
+- ISNUMBER
 
 ---
 
-## Step 6
+## Step 6 – Cleaning Amount Values
 
-Problem
+**Problem:**  
+The Amount column contained multiple formatting issues.
 
-Amount Column
+**Issues Identified:**
+- Currency symbols
+- Negative values
+- Text values
+- Placeholder values
 
-Issues
+**Examples:**
+- ₹4500
+- Rs.3000
+- INR 2500
+- 999999
+- -500
 
-Currency symbols
+**Decision:**
+- Removed currency symbols
+- Converted values to numeric format
+- Converted negative values using ABS()
+- Removed invalid placeholder records
 
-Negative values
-
-Text values
-
-Placeholder values
-
-Examples
-
-₹4500
-
-Rs.3000
-
-INR 2500
-
-999999
-
--500
-
-Decision
-
-Removed currency symbols
-
-Converted to numeric
-
-Converted negatives using ABS
-
-Removed invalid placeholder records
-
-Functions Used
-
-NUMBERVALUE
-
-SUBSTITUTE
-
-ABS
+**Functions Used:**
+- NUMBERVALUE
+- SUBSTITUTE
+- ABS
 
 ---
 
-## Step 7
+## Step 7 – Outlier Detection
 
-Problem
+**Problem:**  
+Outliers needed to be identified.
 
-Outlier Detection
+**Initial Mistake:**  
+Calculated the IQR using both income and expense transactions together.
 
-Initial Mistake
+**Result:**  
+Approximately 44% of the records were incorrectly identified as outliers.
 
-Calculated IQR using both income and expense.
+**Correction:**  
+Calculated separate IQR thresholds for:
+- Income
+- Expense
 
-Result
-
-Incorrectly labelled 44% of records as outliers.
-
-Correction
-
-Calculated separate IQR limits for:
-
-Income
-
-Expense
-
-Lesson Learned
-
+**Lesson Learned:**  
 Different distributions should not share the same outlier threshold.
 
 ---
 
-## Step 8
+## Step 8 – Category Validation
 
-Problem
+**Problem:**  
+The Category column was often inconsistent with transaction Notes.
 
-Category Validation
+**Example:**
 
-Observation
+| Category | Notes |
+|----------|-------|
+| Rent | Coffee |
 
-Notes often represented actual category.
+**Observation:**  
+Transaction notes more accurately represented the actual spending category.
 
-Example
-
-Category
-
-Rent
-
-Notes
-
-Coffee
-
-Decision
-
-Created Category Mapping table using Notes.
-
-Applied XLOOKUP.
+**Decision:**  
+Created a Notes-to-Category mapping table and updated categories using XLOOKUP.
 
 ---
 
-## Step 9
+## Step 9 – Final Dataset
 
-Final Dataset
+### Final Dataset Size
 
-Rows
+- **Rows:** 14,430
+- **Columns:** 9
 
-14,430
-
-Columns
-
-9
-
-Ready for Analysis
-
-Yes
+**Status:**  
+✅ Ready for Analysis
 
 ---
 
 # 3. Feature Engineering
 
-Created
+The following additional fields were created:
 
-Month
-
-Year
-
-Date Flag
-
-Final Category
-
-Budget Mapping
+- Month
+- Year
+- Date Flag
+- Final Category
+- Budget Mapping
 
 ---
 
-# 4. Analysis
+# 4. Analysis Performed
 
-Performed
+The dataset was analyzed to answer various business and personal finance questions, including:
 
-Financial Summary
-
-Budget Analysis
-
-Category Analysis
-
-Monthly Trends
-
-Payment Behaviour
-
-Income Sources
-
-City Spending
-
-Transaction Frequency
-
-Largest Financial Events
+- Financial Summary
+- Budget Analysis
+- Category Analysis
+- Monthly Trends
+- Payment Behaviour
+- Income Sources
+- City Spending
+- Transaction Frequency
+- Largest Financial Events
 
 ---
 
 # 5. Dashboard
 
-KPIs
+The dashboard includes:
 
-Charts
+### KPIs
+- Financial KPIs
+- Spending KPIs
 
-Insights
+### Charts
+- Category Analysis
+- Monthly Trends
+- Payment Behaviour
+- Budget Distribution
 
-Interactive Filters
-
-Year
-
-Month
+### Interactive Filters
+- Year
+- Month
 
 ---
 
 # 6. Lessons Learned
 
-This project demonstrated that:
+This project reinforced several important data analytics concepts:
 
-Cleaning consumes significantly more time than visualization.
-
-A reusable mapping table is preferable to hardcoded formulas.
-
-Business understanding is necessary before removing outliers.
-
-Missing values should not always be deleted.
-
-Documentation is as important as dashboard creation.
+- Data cleaning consumes significantly more time than visualization.
+- A reusable mapping table is more maintainable than hardcoded formulas.
+- Business understanding is necessary before removing outliers.
+- Missing values should not always be deleted.
+- Proper documentation is just as important as dashboard creation.
