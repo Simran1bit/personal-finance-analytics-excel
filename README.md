@@ -32,6 +32,20 @@ The objective was to transform this raw dataset into an analysis-ready dataset a
 
 ---
 
+# Dataset
+
+Source:
+
+[Kaggle - BudgetWise Finance Dataset]
+
+(Replace this with the original Kaggle URL.)
+
+Original Records : **15,900**
+
+Final Records : **14,430**
+
+---
+
 # Dataset Summary
 
 | Description | Count |
@@ -158,6 +172,14 @@ Automatically generated business insights including:
 - Financial Analytics
 - Data Visualization
 - KPI Reporting
+
+---
+
+# Documentation
+
+Detailed cleaning decisions, formulas, validation rules and business logic are available in:
+
+**description.md**
 
 ---
 
